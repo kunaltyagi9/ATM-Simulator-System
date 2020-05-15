@@ -123,8 +123,9 @@ public class Deposit extends JFrame implements ActionListener{
                     double balance = 0;
                     if(rs.next()){
                         String pin = rs.getString("pin");
-                        
+ 						while(rs.next()) {                       
                         balance = rs.getDouble("balance");
+                        }
                         
                         double d = Double.parseDouble(a);
                         balance+=d;

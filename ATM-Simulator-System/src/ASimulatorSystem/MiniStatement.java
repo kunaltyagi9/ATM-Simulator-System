@@ -17,11 +17,14 @@ public class MiniStatement extends JFrame implements ActionListener{
         super("Mini Statement");
         setSize(1200,650);
         setLocation(200,200);
+     		 String pinn = JOptionPane.showInputDialog("Enter PIN");
+
         
         try{
             conn c1  = new conn();
-            String s1 = "select * from bank";
-            ResultSet rs  = c1.s.executeQuery(s1);
+            ResultSet rs = c1.s.executeQuery("SELECT * FROM bank where pin = '" + pinn + "'");
+          //  String s1 = "select * from bank";
+          //  ResultSet rs  = c1.s.executeQuery(s1);
             while(rs.next()){
                 y[i][j++]=rs.getString("customer_name");
                 y[i][j++]=rs.getString("date");

@@ -7,54 +7,69 @@ import java.sql.*;
 
 public class MiniStatement extends JFrame implements ActionListener{
  
-    JTable t1;
-    JButton b1;
-    String x[] = {"Customer Name","Date","Deposit","Withdraw","Balance"};
-    String y[][] = new String[20][5];
-    int i=0, j=0;
-    
-    MiniStatement(){
+    JButton b1, b2;
+    JLabel l1;
+    MiniStatement(String pin){
         super("Mini Statement");
-        setSize(1200,650);
-        setLocation(200,200);
-     		 String pinn = JOptionPane.showInputDialog("Enter PIN");
-
+        getContentPane().setBackground(Color.WHITE);
+        setSize(400,600);
+        setLocation(20,20);
+        
+        l1 = new JLabel();
+        add(l1);
+        
+        JLabel l2 = new JLabel("Indian Bank");
+        l2.setBounds(150, 20, 100, 20);
+        add(l2);
+        
+        JLabel l3 = new JLabel();
+        l3.setBounds(20, 80, 300, 20);
+        add(l3);
+        
+        JLabel l4 = new JLabel();
+        l4.setBounds(20, 400, 300, 20);
+        add(l4);
         
         try{
-            conn c1  = new conn();
-            ResultSet rs = c1.s.executeQuery("SELECT * FROM bank where pin = '" + pinn + "'");
-          //  String s1 = "select * from bank";
-          //  ResultSet rs  = c1.s.executeQuery(s1);
+            Conn c = new Conn();
+            ResultSet rs = c.s.executeQuery("select * from login where pin = '"+pin+"'");
             while(rs.next()){
-                y[i][j++]=rs.getString("customer_name");
-                y[i][j++]=rs.getString("date");
-                y[i][j++]=rs.getString("deposit");
-                y[i][j++]=rs.getString("withdraw");
-                y[i][j++]=rs.getString("balance");
-                i++;
-                j=0;
+                l3.setText("Card Number:    " + rs.getString("cardno").substring(0, 4) + "XXXXXXXX" + rs.getString("cardno").substring(12));
             }
-            t1 = new JTable(y,x);
-            
+        }catch(Exception e){}
+        	 
+        try{
+            int balance = 0;
+            Conn c1  = new Conn();
+            ResultSet rs = c1.s.executeQuery("SELECT * FROM bank where pin = '"+pin+"'");
+            while(rs.next()){
+                l1.setText(l1.getText() + "<html>"+rs.getString("date")+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + rs.getString("mode") + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + rs.getString("amount") + "<br><br><html>");
+                if(rs.getString("mode").equals("Deposit")){
+                    balance += Integer.parseInt(rs.getString("amount"));
+                }else{
+                    balance -= Integer.parseInt(rs.getString("amount"));
+                }
+            }
+            l4.setText("Your total Balance is Rs "+balance);
         }catch(Exception e){
             e.printStackTrace();
         }
         
+        setLayout(null);
+        b1 = new JButton("Exit");
+        add(b1);
         
-        b1 = new JButton("Print");
-        add(b1,"South");
-        JScrollPane sp = new JScrollPane(t1);
-        add(sp);
         b1.addActionListener(this);
+        
+        l1.setBounds(20, 140, 400, 200);
+        b1.setBounds(20, 500, 100, 25);
     }
     public void actionPerformed(ActionEvent ae){
-        try{
-            t1.print();
-        }catch(Exception e){}
+        this.setVisible(false);
     }
     
     public static void main(String[] args){
-        new MiniStatement().setVisible(true);
+        new MiniStatement("").setVisible(true);
     }
     
 }

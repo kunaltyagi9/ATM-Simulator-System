@@ -2,13 +2,13 @@ package ASimulatorSystem;
 
 import java.sql.*;  
 
-public class conn{
+public class Conn{
     Connection c;
     Statement s;
-    public conn(){  
+    public Conn(){  
         try{  
             Class.forName("com.mysql.jdbc.Driver");  
-            c =DriverManager.getConnection("jdbc:mysql:///project5","root","");    
+            c =DriverManager.getConnection("jdbc:mysql:///bms","root","root");    
             s =c.createStatement(); 
            
           

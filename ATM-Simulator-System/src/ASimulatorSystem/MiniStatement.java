@@ -8,7 +8,7 @@ import java.sql.*;
 public class MiniStatement extends JFrame implements ActionListener{
  
     JButton b1, b2;
-    JLabel l1;
+    JLabel l1l2,l3,l4;
     MiniStatement(String pin){
         super("Mini Statement");
         getContentPane().setBackground(Color.WHITE);
@@ -43,8 +43,8 @@ public class MiniStatement extends JFrame implements ActionListener{
             Conn c1  = new Conn();
             ResultSet rs = c1.s.executeQuery("SELECT * FROM bank where pin = '"+pin+"'");
             while(rs.next()){
-                l1.setText(l1.getText() + "<html>"+rs.getString("date")+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + rs.getString("mode") + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + rs.getString("amount") + "<br><br><html>");
-                if(rs.getString("mode").equals("Deposit")){
+                l1.setText(l1.getText() + "<html>"+rs.getString("date")+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + rs.getString("type") + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + rs.getString("amount") + "<br><br><html>");
+                if(rs.getString("type").equals("Deposit")){
                     balance += Integer.parseInt(rs.getString("amount"));
                 }else{
                     balance -= Integer.parseInt(rs.getString("amount"));
